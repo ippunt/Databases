@@ -6,7 +6,7 @@ xzcat /home/access_log-20161005.xz
 ) | awk '{ print $1 }' | sort | uniq -u >> ~/acessfin
 lst=$(cat ~/accessfin)
 for x in $lst
-do echo -n $x >> ~/location.log
+do echo -n $x"," >> ~/location.log
 curl http://ipinfo.io/$x/loc >> ~/location.log
 done
 #gather all the ip addresses that have accessed website get detailed information regaurding location
