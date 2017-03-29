@@ -21,7 +21,7 @@ create table if not exists "Visits"
 );
 
 HEREDOC
-
+#with the .import if there is no table it uses the first line for the field names, this sets that up.
 echo "ip,country_code,country_name,region_code,region_name
 ,city,zip_code,time_zone,latitude,longitude,metro_code" > ~/output
 lst=$(cat ~/log2) #log file of all the ip addresses
