@@ -2,7 +2,8 @@ CREATE DATABASE - CREATE USER - GRANT PRIVLEGES
 mysql -u root -padmin16
 create database PRIEMEREJD;
 create user 'darling'@'%' identified by 'actualpasswd'; #user can get on the system from anywhere, and from localhost
-create user 'darling'@'localhost' identified by 'actualpasswd' ; # user that can sign on from localhost only     if you ssh in you are considered localhost
+create user 'darling'@'localhost' identified by 'actualpasswd' ; # user that can sign on from localhost only     
+if you ssh in you are considered localhost
 
 grant all on PRIEMEREJD.* to 'darling'@'%' identified by 'actualpasswd'; # grants all premissions to darling on DB from anywhere, can not drop yourself (use root)
 grant all on PREMIEREJD.* to 'darling'@'localhost' identified by 'actualpasswd'; # grants all permission from localhost
