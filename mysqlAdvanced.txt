@@ -1,0 +1,82 @@
+Indexing , Delimiters , createing views , changing field size ,
+
+1.	Create the TopLevelCust view described in Review Question 2. Display the data in the view.
+
+create view TopLevelCust as select CustomerNum, CustomerName, Street, City, State, Zip, Balance, CreditLimit from Customer where CreditLimit>='10000';
+select * from TopLevelCust;
+
+2.	Create the PartOrder view described in Review Question 3. Display the data in the view.
+
+create view PartOrder as select OrderLine.OrderNum, NumOrdered, QuotedPrice, Orders.OrderDate, Part.PartNum, Description, Price from OrderLine, Orders, Part where OrderLine.OrderNUm=Orders.OrderNum and OrderLine.PartNum=Part.PartNum;
+select * from PartOrder;
+
+3.	Create a view named OrdTot.It consists of the order number and order total for each order currently on file.(The order total is the sum of the number ordered multiplied by the quoted price on each order line for each order.) Display the data in the view. 
+
+create view OrderTot as select OrderNum, NumOrdered * QuotedPrice as OrderTotal from OrderLine;
+select * from OrderTot;
+
+4.	Create the following indexes. If it is necessary to name the index in your DBMS, use the indicated name. a. Create an index named PartIndex1 on the PartNum field in the OrderLine table. b. Create an index named PartIndex2 on the Warehouse field in the Part table. c. Create an index named PartIndex3 on the Warehouse and Class fields in the Part table. d. Create an index named PartIndex4 on the Warehouse and OnHand fields in the Part table and list units on hand in descending order. 
+create index PartIndex1 on OrderLine (PartNum);
+create index PartIndex2 on Part (WareHouse);
+create index PartIndex3 on Part (warehouse, Class);
+create index Partindex4 on Part (Warehouse, OnHand DESC)
+
+5.	Drop the PartIndex3 index. 
+drop index PartIndex3 on Part;
+6.Assume the Part table has been created but there are no integrity constraints. Create the necessary integrity constraint to ensure that the only allowable values for the Class field are  AP, HW, and SG. Ensure that the PartNum field is the primary key and that the PartNum field in the OrderLine table is a foreign key that must match the primary key of the Part table. 
+alter table Part add check (Class in (‘AP’,’ SG’, ‘HW’));
+alter table Part add primary key  (PartNum) ;  
+alter table OrderLine add foreign key (PartNum) references Part;
+ 
+
+
+7.	Add a field named Allocation to the Part table.The allocation is a number representing the number of units of each part that have been allocated to each customer. Set all values of Allocation to zero. Calculate the number of units of part number KV29 currently on order. Change the value of Allocation for part number KV29 to this number. Display all the data in the Part table. 
+
+alter table Part add Allocation decimal(4,0);
+update Part set Allocation=0;
+select sum(NumOrdered) from OrderLine where PartNum=’KV29’;
+update Part set Allocation=2 where PartNum=’KV29’;
+select * from Part;
+
+8.	Increase the length of the Warehouse field in the Part table to two characters. Change the warehouse number for warehouse 1 to 1a. Display all the data in the Part table. 
+ALTER TABLE Part CHANGE COLUMN Warehouse Warehouse CHAR(2)
+Update Part set WareHouse=’1a’  where WareHouse=’1’;
+Select * from Part;
+
+9.	Delete the Allocation field from the Part table. Display all the data in the Part table.
+Alter table Part drop Allocation;
+Select * from Part;
+
+ 10. What command would delete the Part table from the Premiere Products database? (Do not delete the Part table.) drop table Part;
+
+ 11. Write a stored procedure that will change the price of a part with a given part number. How would you use this stored procedure to change the price of part AT94 to $26.95? 
+Delimiter $$
+Create procedure Change_price
+Price decimal (4,2)
+Begin
+Update Part set Price=’26.95’ where Part=’AT94’ ; END
+$$
+Delimiter ;
+
+12. Write the code for the following triggers following the style shown in the text. a. When adding a customer, add the customer’s balance times the sales rep’s commission rate to the commission for the corresponding sales rep. b. When updating a customer, add the difference between the new balance and the old balance multipled by the sales rep’s commission rate to the commission for the corresponding sales rep. c. When deleting a customer, subtract the balance multiplied by the sales rep’s commission rate from the commission for the corresponding sales rep.
+A.
+Delimiter $$
+Create trigger AddCustomer After insert on customer For each row Begin Update Rep Set Commission = Commission + rate * new.Balance where RepNum= New.RepNum ;
+End $$
+Delimiter ;
+B.
+Delimiter $$
+Create trigger UpdateCustomer  AFTER UPDATE ON CUSTOMER  for each row BEGIN UPDATE REP 
+Set Commission = commission + ((New.Balance – Old.Balance) * Rate WHERE RepNum=New.RepNum;
+END
+$$
+Delimiter ;
+C.
+Delimiter $$
+Create trigger CustomerDelete  After delete on Customer
+ For each row Begin Update Rep
+Set Commission =  Commission – Old.Balance * Rate
+Where RepNum = New.RepNum ;
+END
+$$
+Delimiter ;
