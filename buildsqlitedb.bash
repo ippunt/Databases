@@ -11,12 +11,13 @@ echo "|Now you need to fill in all your field data, it will be 3 parts          
 echo "|                                                                                                          | "
 echo "|Your FieldName FieldType Null or not examples follow                                                      | "
 echo "|                                                                                                          | "
-echo "|"fieldone" decimal(8,2) default null, fieldtwo char(15) default null                                      | "
+echo "|fieldone decimal(8,2) default null, fieldtwo char(15) default null                                        | "
 echo "|                                                                                                          | "
 echo "|Pease place all of your fields together on one continued line, seperating each of the fields by a comma   | "
 echo "|__________________________________________________________________________________________________________| "
 echo -n "Would you like to see a full list of FieldType usage? y or n-->"
 read answer
+#to use this basically google field types and put useful fieldtype data into a fieldtype file in the same directory
 if [ $answer = "y" -o $answer = "Y" ]
 then
 cat fieldtype
