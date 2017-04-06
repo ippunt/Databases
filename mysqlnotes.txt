@@ -5,7 +5,8 @@ create user 'darling'@'%' identified by 'actualpasswd'; #user can get on the sys
 create user 'darling'@'localhost' identified by 'actualpasswd' ; # user that can sign on from localhost only     
 if you ssh in you are considered localhost
 
-grant all on PRIEMEREJD.* to 'darling'@'%' identified by 'actualpasswd'; # grants all premissions to darling on DB from anywhere, can not drop yourself (use root)
+grant all on PRIEMEREJD.* to 'darling'@'%' identified by 'actualpasswd'; # grants all premissions to darling on DB from
+anywhere, can not drop yourself (use root)
 grant all on PREMIEREJD.* to 'darling'@'localhost' identified by 'actualpasswd'; # grants all permission from localhost
 
 http://dev.mysql.com/doc/refman/5.7/en/grant.html#grant-privileges    # info on grants specific
