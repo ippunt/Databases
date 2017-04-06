@@ -1,1 +1,1 @@
-# databases- a place for scripts that include a database
+Databases- Info and scripts used for databases!
