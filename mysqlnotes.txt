@@ -1,0 +1,61 @@
+CREATE DATABASE - CREATE USER - GRANT PRIVLEGES 
+mysql -u root -padmin16
+create database PRIEMEREJD;
+create user 'darling'@'%' identified by 'actualpasswd'; #user can get on the system from anywhere, and from localhost
+create user 'darling'@'localhost' identified by 'actualpasswd' ; # user that can sign on from localhost only     if you ssh in you are considered localhost
+
+grant all on PRIEMEREJD.* to 'darling'@'%' identified by 'actualpasswd'; # grants all premissions to darling on DB from anywhere, can not drop yourself (use root)
+grant all on PREMIEREJD.* to 'darling'@'localhost' identified by 'actualpasswd'; # grants all permission from localhost
+
+http://dev.mysql.com/doc/refman/5.7/en/grant.html#grant-privileges    # info on grants specific
+
+from mysql prompt use PREMIEREJD; # to use empty database
+
+source filename  # the file must be in the directory you were currently in when you opened mysql
+# it will build your DB from a file that has been dumped
+drop user darling@localhost; # be able to undo everything
+drop user darling;							<^# they are seen as different so must delete each individually
+drop database PREMIEREJD;
+______________________________________________________________________________-
+DUMP DATABASE TO A FILE
+mysqldump -u root -pactualpasswd DBNAME > MYDB1.mysql  # I know this works but have also saw it written like this
+mysqldump -u root -pactualpasswd -d DBNAME > MYDB1.mysql # They both work
+________________________________________________________________________________
+REMOTE CONNECTIVITY
+https://easyengine.io/tutorials/mysql/remote-access/     #helped me alot
+To access the mysql server you will need grant privledges from anywhere %
+but mysql only allows localhost in fil.conf so comment it out or add ip address
+/etc/mysql/mysql.conf.d/mysqld.cnf    
+comment out this line   bind-address           = 127.0.0.1   not very secure then anyone can get to it
+ensure iptables has proper config for connectivity , or use ufw or firewalld what ever preferred
+____________________________________________________________________________________________
+DATABASE CREATION NOTES
+-Good syntax for database creation
+ create table Items (Name varchar(255) not null, Description varchar(255), price decimal(4,2), primary key (Name));
+- create table Customers (CustomerNum int auto_increment, Name varchar(255), Number varchar(255), E_mail varchar(255),
+ primary key (CustomerNum));
+
+-Primary and foreign Good idea to use individual lines for debugging code its not all on the same line
+sql can better tell you exactly whats wrong on what line instead of everything being on one line 
+create table Orders                                                          
+    -> (OrderNum int not null auto_increment,
+    -> OrderDate Date,
+    -> CustomerNum int,
+    -> primary key (OrderNum),
+    -> foreign key (CustomerNum) references Customers(CustomerNum));
+Query OK, 0 rows affected (0.38 sec)
+
+
+-Just for referenceing syntax
+create table Transaction
+ (OrderNum int not null,
+ Name varchar(255) not null,
+ NumOrdered decimal(2),
+ QuotedPrice decimal(4,2),
+ TransNum int not null auto_increment,
+ primary key (TransNum),
+ foreign key (OrderNum) references Orders(OrderNum),
+ foreign key (Name) references Items(Name));
+
+
+
