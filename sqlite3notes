@@ -7,5 +7,5 @@ ____________________________________________________
 BACKUP MY DATABASE
 echo .dump | sqlite3 MyDBName.sqlite > MYDBNameBackup.sqlite
 
-sqlite3 MYDBName2.sqlite < MYDBNameBackup.sqlite # inserting the dump file into database not DB2 has all the data from DB1
+sqlite3 MYDBName2.sqlite < MYDBNameBackup.sqlite # inserting the dump file into database now DB2 has all the data from DB1
 # With automating this with scripting you could get alot done, really quick!
