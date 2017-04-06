@@ -9,7 +9,8 @@ I chose limit 18 because employees had multipe salaries listed
 -current employess
  select salaries.emp_no, salary, current_dept_emp.from_date,current_dept_emp.to_date, employees.first_name, last_name
 from salaries, employees, current_dept_emp
-where current_dept_emp.to_date="9999-01-01" and salary>=100380 and employees.emp_no=salaries.emp_no and employees.emp_no=current_dept_emp.emp_no order by salary desc
+where current_dept_emp.to_date="9999-01-01" and salary>=100380 and employees.emp_no=salaries.emp_no and
+employees.emp_no=current_dept_emp.emp_no order by salary desc
  limit 10;
 
 
@@ -58,10 +59,3 @@ select * from departments where emp_no=43623 or emp_no=253406;
  select employees.first_name, last_name,  employees.emp_no, salaries.from_date, min(salary), 
 current_dept_emp.dept_no from employees, salaries, current_dept_emp where employees.emp_no=salaries.emp_no and
  current_dept_emp.emp_no=employees.emp_no;
-
-
--What was the highest paid employees title? Senior Staff
-select * from employees where emp_no=43624;
-
--What was the lowest paid employees title?Technique Leader
-select * from employees where emp_no=253406;
