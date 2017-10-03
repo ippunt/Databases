@@ -1,0 +1,62 @@
+
+.help - general help
+.table - shows you tables .tables also works!
+.schema - shows you the schema of database .schema TableName; shows you table schema
+
+1. List the author number and last name for every author.
+   - SELECT AuthorNum, AuthorLast FROM Author;
+
+2. List the complete Branch table (all rows and all columns).
+SELECT * from Branch;
+
+3. List the name of every publisher located in Boston.
+SELECT PublisherName from Publisher where City='Boston';
+
+4. List the name of every publisher not located in Boston.
+select PublisherName from Publisher where City<>'Boston';
+select PublisherName from Publisher where City!='Boston';
+
+5. List the name of every branch that has at least nine employees.
+SELECT BranchName from Branch where NumEmployees>=9;
+
+6. List the book code and title of every book that has the type SFI.
+SELECT Title, BookCode from Book where Type='SFI';
+
+7. List the book code and title of every book that has the type SFI and that is a paperback.
+ SELECT BookCode, Title from Book where type='SFI' and Paperback='Y';
+
+8. List the book code and title of every book that has the type SFI or that has the publisher code PE.
+SELECT BookCode, Title from Book where type='SFI' or PublisherCode='PE';
+
+9. List the book code, title, and price for each book with a price that is greater than $5 but less than $10.
+ SELECT BookCode, Title, Price from book where Price>5 and Price<10;
+SELECT BookCode, Title, Price from book where Price BETWEEN 5 and 10;
+
+10. List the book code and title of every book that has the type FIC and a price of less than $10.
+SELECT BookCode, Title from Book where Type='FIC' and Price<10;
+
+11. Customers who are part of a special program get a 15% discount off regular book prices. To determine the dis- counted prices, list the book code, title, and discounted price of every book. (Your calculated column should deter- mine 85% of the current price, which is 100% less a 15% discount.) 
+SELECT BookCode, Title, Price * .85 as DiscountPrice from Book;
+
+12. List the book code and title of every book that has the type SFI, HOR, or ART.
+SELECT BookCode, Title from Book where Type='FIC' or Type='HOR' or Type='ART';
+
+13. List the book code, title, and publisher code for all books. Sort the results by title within publisher code.
+Select BookCode, Title, PublisherCode from Book order by PublisherCode, Title;
+
+14. How many books have the type SFI?
+Select count(Title) from Book where Type='SFI';
+
+15. Calculate the average price for each type of book.
+select Type, AVG(Price) from Book group by Type;  This one is the solution and validated that data is correct.
+select AVG(Price) from Book where Type='SFI'; >> 13.1033333333333  for validation purposes
+select AVG(Price) from Book where Type='FIC'; >> 10.5207692307692  also validation
+
+16. For every book, list the book code, book title, publisher code, and publisher name.
+Select Book.BookCode, Book.Title, Book.PublisherCode, Publisher.PublisherName from Book, Publisher where Publisher.PublisherCode = Book.PublisherCode;
+
+17. For every book published by Taunton Press, list the book title and book price.
+Select Book.Title, Book.Price from Book, Publisher where Publisher.PublisherCode = Book.PublisherCode and PublisherName='Taunton Press';
+
+18. List the book title and book code for every book published by Putnam Publishing Group that has a book price greater than $15.
+Select Book.Title, Book.BookCode from Book, Publisher where Publisher.PublisherCode = Book.PublisherCode and PublisherName='Putnam Publishing Group' and Price>5;
